@@ -1,7 +1,11 @@
 # Secret Santa Bot
 This bot is going to help you make a combination of people to see who is going to give who a present.
 
-To set up the code :
+To set up the code first make a Tokens.py and set a variable like this, which is your telegram bot token : 
+~~~python
+telegram_bot_token = ''
+~~~
+
 ~~~console
 $ pip install -r requirements.txt
 $ python SecretSanta.py

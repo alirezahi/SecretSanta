@@ -6,6 +6,7 @@ To set up the code first make a Tokens.py and set a variable like this, which is
 telegram_bot_token = ''
 ~~~
 
+And after that :
 ~~~console
 $ pip install -r requirements.txt
 $ python SecretSanta.py

@@ -1,4 +1,3 @@
-import pymongo
 from pymongo import MongoClient
 import json
 import telebot
@@ -7,7 +6,9 @@ import random
 import requests
 import string
 
-bot = telebot.TeleBot('106603081:AAGMQt_E7FqqEHEHbbfZA4ho9GtPB2SALk4')
+from Tokens import telegram_bot_token
+
+bot = telebot.TeleBot(telegram_bot_token)
 client = MongoClient('localhost', 27017)
 db = client.reminder_database
 groups = db['groups']

@@ -82,7 +82,7 @@ def send_welcome(message):
                 username = message.from_user.username
             except:
                 try:
-                    username = (message['from_user']['first_name'] if 'first_name' in message['from_user'] else '') + (' ' + message['from_user']['last_name'] if 'last_name' in message['from_user'] else '')
+                    username = (message.from_user.first_name if hasattr(message, 'from_user') and hasattr(message.from_user, 'first_name') else '') + (' ' + message.from_user.last_name if hasattr(message, 'from_user') and hasattr(message.from_user, 'last_name') else '')
                 except:
                     username = message.from_user.id
             chat_id = message.chat.id   

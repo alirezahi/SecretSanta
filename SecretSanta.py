@@ -7,14 +7,13 @@ import requests
 import string
 
 from Tokens import telegram_bot_token
-
 bot = telebot.TeleBot(telegram_bot_token)
 client = MongoClient('localhost', 27017)
-db = client.reminder_database
+db = client.secret_santa
 groups = db['groups']
 users = db['users']
 
-problem_text = 'مشکل برای بات پیش آمده کسکم!'
+problem_text = 'مشکل برای بات پیش آمده کسگم!'
 
 
 def extract_unique_code(text):
@@ -83,10 +82,10 @@ def send_welcome(message):
                 username = message.from_user.username
             except:
                 try:
-                    username = message.from_user.first_name + message.from_user.last_name
+                    username = (message['from_user']['first_name'] if 'first_name' in message['from_user'] else '') + (' ' + message['from_user']['last_name'] if 'last_name' in message['from_user'] else '')
                 except:
-                    message.from_user.id
-            chat_id = message.chat.id
+                    username = message.from_user.id
+            chat_id = message.chat.id   
             tmp_user = users.find_one({
                 'username': username,
                 'chat_id': chat_id,
@@ -120,5 +119,4 @@ def send_welcome(message):
         bot.send_message(message.chat.id, text)
 
 
-
-bot.polling()
+bot.polling(none_stop=True)

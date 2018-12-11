@@ -35,7 +35,7 @@ def token_generator(char_len=10):
 def getgroup(message):
     try:
         token = token_generator()
-        text = 'با این بقیه رو دعوت کن : ' + 'http://t.me/Movietvsbot?start=' + token
+        text = 'با این بقیه رو دعوت کن : ' + 'http://t.me/bbsecretsanta_bot?start=' + token
         groups.insert_one(
             {'group_id': token})
         bot.send_message(message.chat.id, text)

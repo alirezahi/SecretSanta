@@ -85,6 +85,8 @@ def send_welcome(message):
                     username = (message.from_user.first_name if hasattr(message, 'from_user') and hasattr(message.from_user, 'first_name') else '') + (' ' + message.from_user.last_name if hasattr(message, 'from_user') and hasattr(message.from_user, 'last_name') else '')
                 except:
                     username = message.from_user.id
+            if username == None:
+                username = 'شما'
             chat_id = message.chat.id   
             tmp_user = users.find_one({
                 'username': username,

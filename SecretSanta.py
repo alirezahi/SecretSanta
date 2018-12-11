@@ -74,49 +74,49 @@ def get_code(message):
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    # try:
-    user_code = extract_unique_code(message.text)
-    tmp_group = groups.find_one({'group_id': user_code})
-    if tmp_group:
-        try:
-            username = message.from_user.username
-        except:
+    try:
+        user_code = extract_unique_code(message.text)
+        tmp_group = groups.find_one({'group_id': user_code})
+        if tmp_group:
             try:
-                username = (message.from_user.first_name if hasattr(message, 'from_user') and hasattr(message.from_user, 'first_name') else '') + (' ' + message.from_user.last_name if hasattr(message, 'from_user') and hasattr(message.from_user, 'last_name') else '')
+                username = message.from_user.username
             except:
-                username = message.from_user.id
-        chat_id = message.chat.id   
-        tmp_user = users.find_one({
-            'username': username,
-            'chat_id': chat_id,
-            'group_id': user_code,
-        })
-        if tmp_user == None:
-            if user_code and user_code != '':
-                #this scope means it has come from referral
-                users.insert_one({
-                    'chat_id':chat_id,
-                    'username':username,
-                    'group_id': user_code,
-                })
-                text = 'دمت گرم اضافه شدی... تا الان اینا اومدن : \n'
+                try:
+                    username = (message.from_user.first_name if hasattr(message, 'from_user') and hasattr(message.from_user, 'first_name') else '') + (' ' + message.from_user.last_name if hasattr(message, 'from_user') and hasattr(message.from_user, 'last_name') else '')
+                except:
+                    username = message.from_user.id
+            chat_id = message.chat.id   
+            tmp_user = users.find_one({
+                'username': username,
+                'chat_id': chat_id,
+                'group_id': user_code,
+            })
+            if tmp_user == None:
+                if user_code and user_code != '':
+                    #this scope means it has come from referral
+                    users.insert_one({
+                        'chat_id':chat_id,
+                        'username':username,
+                        'group_id': user_code,
+                    })
+                    text = 'دمت گرم اضافه شدی... تا الان اینا اومدن : \n'
+                    for other_user in users.find({'group_id': user_code}):
+                        text +=other_user['username']
+                        text +='\n'
+                    bot.send_message(message.chat.id,text)
+            else:
+                text = 'قبلا رفتی تو این گروه کلک . بیا اینم اعضاش : '
                 for other_user in users.find({'group_id': user_code}):
-                    text +=other_user['username']
-                    text +='\n'
-                bot.send_message(message.chat.id,text)
+                    text += other_user['username']
+                    text += '\n'
+                bot.send_message(message.chat.id, text)
         else:
-            text = 'قبلا رفتی تو این گروه کلک . بیا اینم اعضاش : '
-            for other_user in users.find({'group_id': user_code}):
-                text += other_user['username']
-                text += '\n'
+            #this scope means it has started bot from the begining without referral
+            text = 'همچین کدی نداریم خدایی!'
             bot.send_message(message.chat.id, text)
-    else:
-        #this scope means it has started bot from the begining without referral
-        text = 'همچین کدی نداریم خدایی!'
+    except:
+        text = problem_text
         bot.send_message(message.chat.id, text)
-    # except:
-    text = problem_text
-    bot.send_message(message.chat.id, text)
 
 
 bot.polling(none_stop=True)

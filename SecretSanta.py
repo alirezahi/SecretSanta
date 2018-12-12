@@ -58,7 +58,6 @@ def send_santa(message):
 def get_code(message):
     try:
         the_code = message.text
-        the_code = 'vr04au0riq'
     
         the_list_username = []
         the_list_chat_id = []
@@ -66,14 +65,6 @@ def get_code(message):
             the_list_username.append(other_user['username'])
             the_list_chat_id.append(other_user['chat_id'])
         result = derange(the_list_username)
-        h1 = result.index('hadiRnjb')
-        h2 = the_list_username.index('hadiRnjb')
-        a1 = the_list_username.index('ArezooDarzi')
-        if result[a1] != the_list_username[h1]:
-            result[a1], result[h1] = result[h1], result[a1]
-        h1 = result.index('saeedehkarami')
-        h2 = the_list_username.index('saeedehkarami')
-        a1 = the_list_username.index('ArmanRoomana')
         if result[a1] != the_list_username[h1]:
             result[a1], result[h1] = result[h1], result[a1]
         for index,item in enumerate(result):
